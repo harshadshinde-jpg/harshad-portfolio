@@ -3,25 +3,96 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --orange: #E8630A;
+  --dark-navy: #1A1A2E;
+  --mid-grey: #444466;
+  --warm-bg: #FFF8F3;
+  --accent-bg: #FEF0E4;
+  --terminal-green: #00FF41;
+  --near-black: #0D0D0D;
+  --subtle: #999999;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  color: #171717;
+  background: #ffffff;
+  font-family: Calibri, system-ui, -apple-system, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Scanline CRT effect for terminal */
+.scanlines {
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.15) 2px,
+    rgba(0, 0, 0, 0.15) 4px
+  );
+  pointer-events: none;
+}
+
+/* Terminal cursor blink */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.cursor-blink {
+  animation: blink 1s step-end infinite;
+}
+
+/* Heartbeat animation */
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+.heartbeat {
+  animation: heartbeat 2s ease-in-out infinite;
+}
+
+/* Door hover light spill */
+@keyframes doorGlow {
+  from { box-shadow: inset 0 0 0px rgba(255,255,255,0); }
+  to { box-shadow: inset 0 0 40px rgba(255,255,255,0.15); }
+}
+
+/* Glitch animation */
+@keyframes glitch {
+  0% { transform: translate(0); filter: none; }
+  20% { transform: translate(-2px, 1px); filter: hue-rotate(90deg); }
+  40% { transform: translate(2px, -1px); filter: brightness(1.5); }
+  60% { transform: translate(-1px, 2px); filter: hue-rotate(-90deg); }
+  80% { transform: translate(1px, -2px); filter: none; }
+  100% { transform: translate(0); filter: none; }
+}
+
+.glitch-anim {
+  animation: glitch 0.3s ease infinite;
+}
+
+/* Scroll padding for fixed contact bar */
+.pb-contact {
+  padding-bottom: 60px;
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+  .font-handwritten {
+    font-family: var(--font-caveat), cursive;
+  }
+  .font-terminal {
+    font-family: 'Courier New', Courier, monospace;
+  }
+  .font-serif {
+    font-family: Georgia, 'Times New Roman', serif;
   }
 }

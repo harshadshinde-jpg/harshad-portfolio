@@ -7,18 +7,34 @@ import ContactBar from "@/components/ContactBar";
 import { track } from "@/lib/posthog";
 
 // ─── Experience data (verified against canonical work history) ────────────────
-const experience = [
+type Job = {
+  company: string;
+  role: string;
+  period: string;
+  type: string;
+  location: string;
+  intro?: string;
+  bullets: string[];
+  outro?: string;
+};
+
+const experience: Job[] = [
   {
     company: "Versapay",
-    role: "Senior Product Manager, AR Automation",
+    role: "Senior Product Manager, AR Automation (Ledger Platform)",
     period: "2026 – Present",
     type: "Full-time",
     location: "Vancouver, BC",
+    intro:
+      "I lead product for Versapay's Ledger Platform, which handles how payments are recorded, settled, and reconciled across our AR automation products. The platform spans several payment systems brought together through acquisitions, and my focus is making them work as one consistent ledger.",
     bullets: [
-      "Own product strategy for AR Automation within Versapay's Ledger Platform, formed through five acquisitions (Versapay, Solupay, ChargeLogic, 2CP, DadeSystems).",
-      "Working from a \"unified ledger first\" thesis: consolidate ledger infrastructure - the additive, internal-facing step - ahead of any customer-facing gateway consolidation.",
-      "Partnering with engineering, finance, and go-to-market leadership to shape the roadmap for a platform serving mid-market and enterprise AR teams.",
+      "Ledger and gateway consolidation: Planning the move of multiple gateways and ledger systems onto a single platform across our ISO and PayFac models.",
+      "Settlement monitoring: Defining requirements for automated settlement and reconciliation monitoring across Adyen and Worldpay, including validating the underlying logic in Snowflake.",
+      "Card Account Updater: Writing the PRD for automatic card credential updates to reduce failed payments.",
+      "ACH returns: Analyzing return and dispute trends across processors to reduce failed payments for corporate customers.",
+      "ERP integrations: Defining how the ledger connects with our NetSuite, Microsoft Dynamics, and Sage Intacct connectors.",
     ],
+    outro: "I work day to day with engineering, analytics, and finance operations to prioritize and ship this work.",
   },
   {
     company: "PavePal",
@@ -152,7 +168,19 @@ const caseStudies = [
   },
 ];
 
-function ExperienceRow({ job }: { job: (typeof experience)[0] }) {
+function BulletText({ text }: { text: string }) {
+  const match = text.match(/^([^:]{1,48}):\s([\s\S]*)$/);
+  if (match) {
+    return (
+      <>
+        <strong style={{ color: "rgba(255,255,255,0.9)" }}>{match[1]}:</strong> {match[2]}
+      </>
+    );
+  }
+  return <>{text}</>;
+}
+
+function ExperienceRow({ job }: { job: Job }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
   return (
@@ -182,14 +210,24 @@ function ExperienceRow({ job }: { job: (typeof experience)[0] }) {
       <div className="text-xs mb-4" style={{ color: "rgba(255,255,255,0.3)", fontFamily: "Courier New, monospace" }}>
         {job.location}
       </div>
+      {job.intro && (
+        <p className="text-sm mb-4" style={{ color: "rgba(255,255,255,0.72)", lineHeight: 1.7 }}>
+          {job.intro}
+        </p>
+      )}
       <ul className="space-y-2">
         {job.bullets.map((b, i) => (
           <li key={i} className="text-sm flex gap-2" style={{ color: "rgba(255,255,255,0.72)", lineHeight: 1.7 }}>
             <span style={{ color: "#E8630A", flexShrink: 0 }}>▸</span>
-            {b}
+            <span><BulletText text={b} /></span>
           </li>
         ))}
       </ul>
+      {job.outro && (
+        <p className="text-sm mt-4" style={{ color: "rgba(255,255,255,0.72)", lineHeight: 1.7 }}>
+          {job.outro}
+        </p>
+      )}
     </motion.div>
   );
 }
@@ -277,16 +315,13 @@ export default function WorkPage() {
           Financial infrastructure products are hard to own. They sit at the intersection of
           engineering complexity, regulatory constraint, and real business risk. A bad decision
           doesn&apos;t just slow down a sprint - it breaks a merchant&apos;s payday, triggers a
-          compliance audit, or costs a customer their trust. I&apos;ve spent 8+ years owning exactly
+          compliance audit, or costs a customer their trust. I&apos;ve spent 10+ years owning exactly
           these products.
         </motion.p>
       </section>
 
       {/* Case studies */}
       <section className="py-8 px-4 max-w-3xl mx-auto">
-        <h2 className="text-3xl font-bold text-white mb-8 text-center" style={{ fontFamily: "Georgia, serif" }}>
-          Selected work
-        </h2>
         {caseStudies.map((c, i) => (
           <CaseStudy key={c.title} item={c} index={i} />
         ))}
@@ -376,14 +411,6 @@ export default function WorkPage() {
 
       {/* CTA */}
       <section className="py-24 px-4 max-w-3xl mx-auto text-center pb-contact">
-        <h2 className="text-3xl font-bold text-white mb-6" style={{ fontFamily: "Georgia, serif" }}>
-          What I&apos;m looking for
-        </h2>
-        <p className="text-lg mb-10" style={{ color: "rgba(255,255,255,0.65)", lineHeight: 1.8 }}>
-          A Senior PM role in fintech, legaltech, compliance, or platform infrastructure - somewhere
-          I can own a complex domain, work closely with engineering, and build something that
-          matters. Based in Vancouver, open to hybrid or remote across Canada.
-        </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6">
           <a
             href="mailto:harshadshinde@gmail.com"

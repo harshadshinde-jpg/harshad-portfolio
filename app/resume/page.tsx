@@ -6,18 +6,34 @@ import { motion } from "framer-motion";
 import { track } from "@/lib/posthog";
 
 // ─── Data (verified against canonical work history) ────────────────────────────
-const experience = [
+type Job = {
+  company: string;
+  role: string;
+  type: string;
+  period: string;
+  location: string;
+  intro?: string;
+  bullets: string[];
+  outro?: string;
+};
+
+const experience: Job[] = [
   {
     company: "Versapay",
-    role: "Senior Product Manager, Payments Infrastructure",
+    role: "Senior Product Manager, AR Automation (Ledger Platform)",
     type: "Full-time",
     period: "2026 – Present",
     location: "Vancouver, BC",
+    intro:
+      "I lead product for Versapay's Ledger Platform, which handles how payments are recorded, settled, and reconciled across our AR automation products. The platform spans several payment systems brought together through acquisitions, and my focus is making them work as one consistent ledger.",
     bullets: [
-      "Own product strategy for AR Automation within Versapay's Ledger Platform, formed through five acquisitions (Versapay, Solupay, ChargeLogic, 2CP, DadeSystems).",
-      "Working from a \"unified ledger first\" thesis: consolidate ledger infrastructure ahead of any customer-facing gateway consolidation.",
-      "Partnering with engineering, finance, and go-to-market leadership to shape the roadmap for a platform serving mid-market and enterprise AR teams.",
+      "Ledger and gateway consolidation: Planning the move of multiple gateways and ledger systems onto a single platform across our ISO and PayFac models.",
+      "Settlement monitoring: Defining requirements for automated settlement and reconciliation monitoring across Adyen and Worldpay, including validating the underlying logic in Snowflake.",
+      "Card Account Updater: Writing the PRD for automatic card credential updates to reduce failed payments.",
+      "ACH returns: Analyzing return and dispute trends across processors to reduce failed payments for corporate customers.",
+      "ERP integrations: Defining how the ledger connects with our NetSuite, Microsoft Dynamics, and Sage Intacct connectors.",
     ],
+    outro: "I work day to day with engineering, analytics, and finance operations to prioritize and ship this work.",
   },
   {
     company: "PavePal",
@@ -151,6 +167,18 @@ function PrintButton() {
   );
 }
 
+function BulletText({ text }: { text: string }) {
+  const match = text.match(/^([^:]{1,48}):\s([\s\S]*)$/);
+  if (match) {
+    return (
+      <>
+        <strong>{match[1]}:</strong> {match[2]}
+      </>
+    );
+  }
+  return <>{text}</>;
+}
+
 function SectionHead({ title }: { title: string }) {
   return (
     <div className="flex items-center gap-3 mb-5">
@@ -203,9 +231,9 @@ export default function ResumePage() {
         <section className="mb-8">
           <SectionHead title="Professional Summary" />
           <p className="text-sm leading-relaxed" style={{ color: "#333", lineHeight: 1.8 }}>
-            Senior Product Manager with 8+ years of experience building and shipping B2B SaaS products
+            Senior Product Manager with 10+ years of experience building and shipping B2B SaaS products
             across payments infrastructure, billing systems, compliance automation, and integration-heavy
-            platforms. Currently leading payments infrastructure product strategy at Versapay. I enjoy the parts of
+            platforms. Currently leading AR automation and ledger platform strategy at Versapay. I enjoy the parts of
             product that most people avoid: mapping messy end-to-end flows, translating complex regulatory
             and business requirements into clear product specs, and guiding teams toward the real problem
             rather than the loudest one. Comfortable in both structured enterprise environments and scrappy
@@ -243,14 +271,24 @@ export default function ResumePage() {
                     {job.type ? `${job.type} · ` : ""}{job.location}
                   </span>
                 </div>
+                {job.intro && (
+                  <p className="text-sm mb-2" style={{ color: "#444", lineHeight: 1.7 }}>
+                    {job.intro}
+                  </p>
+                )}
                 <ul className="space-y-1.5">
                   {job.bullets.map((b, j) => (
                     <li key={j} className="flex gap-2 text-sm" style={{ color: "#444", lineHeight: 1.7 }}>
                       <span style={{ color: "#E8630A", flexShrink: 0 }}>▸</span>
-                      {b}
+                      <span><BulletText text={b} /></span>
                     </li>
                   ))}
                 </ul>
+                {job.outro && (
+                  <p className="text-sm mt-2" style={{ color: "#444", lineHeight: 1.7 }}>
+                    {job.outro}
+                  </p>
+                )}
               </div>
             ))}
           </div>

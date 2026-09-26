@@ -7,10 +7,10 @@ import ContactBar from "@/components/ContactBar";
 import { track } from "@/lib/posthog";
 
 const FACTS = [
-  { label: "Experience", value: "8+ years" },
+  { label: "Experience", value: "10+ years" },
   { label: "Domain", value: "Payments · Tax · Compliance · ERP" },
   { label: "Based in", value: "Vancouver, BC" },
-  { label: "Currently", value: "Senior PM, Payments Infrastructure @ Versapay" },
+  { label: "Currently", value: "Senior PM, AR Automation (Ledger Platform) @ Versapay" },
 ];
 
 const PATHS = [
@@ -19,7 +19,7 @@ const PATHS = [
     href: "/work",
     kicker: "For hiring managers & fellow PMs",
     title: "See the work",
-    body: "8+ years owning payments, billing, and compliance products for real businesses - the roles, the migrations, the 0-to-1 launches.",
+    body: "10+ years owning payments, billing, and compliance products for real businesses - the roles, the migrations, the 0-to-1 launches.",
     cta: "View experience",
     bg: "#14131A",
     fg: "#FFFFFF",

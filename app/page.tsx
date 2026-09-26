@@ -1,199 +1,160 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { motion } from "framer-motion";
-import { useSounds } from "@/components/SoundManager";
+import NavBar from "@/components/NavBar";
+import ContactBar from "@/components/ContactBar";
 import { track } from "@/lib/posthog";
 
-const doors = [
+const FACTS = [
+  { label: "Experience", value: "8+ years" },
+  { label: "Domain", value: "Payments · Tax · Compliance · ERP" },
+  { label: "Based in", value: "Vancouver, BC" },
+  { label: "Currently", value: "Senior PM, AR Automation @ Versapay" },
+];
+
+const PATHS = [
   {
-    id: "hirer",
-    emoji: "👔",
-    label: "I'm hiring",
-    sublabel: "— or thinking about it",
-    teaser: "8+ years. Payments. Tax. Compliance. One PM who can actually build.",
-    bg: "#EEF1FF",
-    hoverBg: "#D8DEFF",
-    textColor: "#1A1A2E",
-    subColor: "#5560AA",
-    teaserColor: "#7880CC",
-    borderColor: "#C0CAFF",
-    labelStyle: { fontFamily: "Georgia, serif" },
-    href: "/hirer",
+    id: "work",
+    href: "/work",
+    kicker: "For hiring managers & fellow PMs",
+    title: "See the work",
+    body: "8+ years owning payments, billing, and compliance products for real businesses - the roles, the migrations, the 0-to-1 launches.",
+    cta: "View experience",
+    bg: "#14131A",
+    fg: "#FFFFFF",
+    accent: "#E8630A",
   },
   {
-    id: "pm",
-    emoji: "🧠",
-    label: "I'm a fellow PM",
-    sublabel: "— here to steal ideas",
-    teaser: "See how this portfolio was built as a product. Full kanban, open process.",
-    bg: "#EDFAED",
-    hoverBg: "#D2F0D2",
-    textColor: "#0F2010",
-    subColor: "#3A7A3A",
-    teaserColor: "#5A9A5A",
-    borderColor: "#A0D8A0",
-    labelStyle: { fontFamily: "Courier New, monospace" },
-    href: "/pm",
+    id: "mentorship",
+    href: "/mentorship",
+    kicker: "For PMs breaking in",
+    title: "Book time with me",
+    body: "I mentor people making the same jump I made - into product management, often from an unconventional background. Book a call on TopMate.",
+    cta: "See mentorship options",
+    bg: "#FDEFE4",
+    fg: "#17161C",
+    accent: "#E8630A",
   },
 ];
 
-export default function LandingPage() {
-  const router = useRouter();
-  const { play } = useSounds();
-  const [openDoor, setOpenDoor] = useState<string | null>(null);
-  const [hoveredDoor, setHoveredDoor] = useState<string | null>(null);
-
-  const handleHover = (id: string) => {
-    if (!hoveredDoor) play("whoosh");
-    setHoveredDoor(id);
-  };
-
-  const handleClick = (door: (typeof doors)[0]) => {
-    if (openDoor) return;
-    play("whoosh");
-    setOpenDoor(door.id);
-    track("door_selected", { door: door.id });
-    setTimeout(() => router.push(door.href), 600);
-  };
-
+export default function HomePage() {
   return (
-    <div
-      className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden py-10 px-4"
-      style={{ background: "#F8F7F2" }}
-    >
-      {/* Title */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.2 }}
-        className="text-center mb-10 z-10"
-        style={{ maxWidth: 600 }}
-      >
-        <h1
-          className="text-3xl md:text-5xl font-bold mb-3"
-          style={{ color: "#E8630A", fontFamily: "Georgia, serif" }}
+    <div className="min-h-screen flex flex-col" style={{ background: "#FAF8F4" }}>
+      <NavBar />
+
+      {/* Hero */}
+      <section className="max-w-4xl mx-auto px-5 pt-16 pb-10 text-center">
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-sm font-mono-label uppercase mb-4"
+          style={{ color: "#8C8B92" }}
         >
-          Welcome to Harshad&apos;s World.
-        </h1>
-        <p className="text-lg md:text-xl mb-1" style={{ color: "#444444" }}>
-          One question. Two doors. One person behind both of them.
-        </p>
-        <p className="text-base" style={{ color: "#999999" }}>
-          Who are you?
-        </p>
-      </motion.div>
+          Harshad Shinde
+        </motion.p>
+        <motion.h1
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="text-4xl md:text-6xl font-bold mb-6 text-balance"
+          style={{ fontFamily: "Georgia, serif", color: "#17161C", lineHeight: 1.15 }}
+        >
+          Senior Product Manager for financial infrastructure.
+        </motion.h1>
+        <motion.p
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="text-lg md:text-xl max-w-2xl mx-auto"
+          style={{ color: "#6B6A72", lineHeight: 1.6 }}
+        >
+          I spend my career making payments, billing, and compliance invisible for the
+          businesses that depend on them - and I mentor the next wave of PMs making
+          the same career jump I did.
+        </motion.p>
+      </section>
 
-      {/* Two large doors — side by side on desktop, stacked on mobile */}
-      <div className="flex flex-col md:flex-row gap-5 w-full max-w-5xl z-10">
-        {doors.map((door, i) => {
-          const isHovered = hoveredDoor === door.id;
-          const isOpen = openDoor === door.id;
+      {/* Facts strip */}
+      <section className="max-w-4xl mx-auto px-5 pb-16 w-full">
+        <div
+          className="grid grid-cols-2 md:grid-cols-4 gap-px rounded-xl overflow-hidden"
+          style={{ background: "rgba(23,22,28,0.10)" }}
+        >
+          {FACTS.map((fact) => (
+            <div key={fact.label} className="p-5" style={{ background: "#FAF8F4" }}>
+              <div
+                className="text-xs font-mono-label uppercase mb-1"
+                style={{ color: "#8C8B92" }}
+              >
+                {fact.label}
+              </div>
+              <div className="text-sm font-semibold" style={{ color: "#17161C" }}>
+                {fact.value}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
 
-          return (
+      {/* Two paths */}
+      <section className="max-w-5xl mx-auto px-5 pb-24 w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          {PATHS.map((path, i) => (
             <motion.div
-              key={door.id}
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.55, delay: 0.4 + i * 0.12 }}
-              style={{ perspective: "1200px", flex: 1 }}
+              key={path.id}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
             >
-              <motion.button
-                onHoverStart={() => handleHover(door.id)}
-                onHoverEnd={() => setHoveredDoor(null)}
-                onClick={() => handleClick(door)}
-                animate={{
-                  rotateY: isOpen ? -85 : isHovered ? -10 : 0,
-                  backgroundColor: isHovered || isOpen ? door.hoverBg : door.bg,
-                }}
-                transition={{ duration: isOpen ? 0.55 : 0.22 }}
-                className="w-full relative overflow-hidden cursor-pointer text-left"
+              <Link
+                href={path.href}
+                onClick={() => track("home_path_selected", { path: path.id })}
+                className="group block h-full rounded-2xl p-8 transition-transform hover:scale-[1.02]"
                 style={{
-                  height: "clamp(200px, 38vh, 340px)",
-                  borderRadius: "16px",
-                  border: `1.5px solid ${door.borderColor}`,
-                  transformOrigin: "left center",
-                  transformStyle: "preserve-3d",
-                  boxShadow: isHovered
-                    ? `0 12px 40px rgba(0,0,0,0.10), 0 0 0 2px ${door.borderColor}`
-                    : "0 2px 12px rgba(0,0,0,0.06)",
-                  transition: "box-shadow 0.2s ease",
+                  background: path.bg,
+                  color: path.fg,
+                  textDecoration: "none",
+                  border: "1px solid rgba(23,22,28,0.06)",
                 }}
               >
-                {/* Light spill on hover */}
-                <motion.div
-                  className="absolute inset-0 pointer-events-none"
-                  animate={{ opacity: isHovered ? 1 : 0 }}
-                  transition={{ duration: 0.2 }}
-                  style={{
-                    background: "linear-gradient(135deg, rgba(255,255,255,0.6) 0%, transparent 55%)",
-                  }}
-                />
-
-                <div className="relative z-10 p-8 h-full flex flex-col justify-between">
-                  {/* Top */}
-                  <div>
-                    <div className="text-5xl mb-4">{door.emoji}</div>
-                    <div
-                      className="text-2xl font-semibold mb-1"
-                      style={{ color: door.textColor, ...door.labelStyle }}
-                    >
-                      {door.label}
-                    </div>
-                    <div className="text-base mb-4" style={{ color: door.subColor }}>
-                      {door.sublabel}
-                    </div>
-                    <motion.p
-                      animate={{ opacity: isHovered ? 1 : 0.55 }}
-                      className="text-sm leading-relaxed"
-                      style={{ color: door.teaserColor, maxWidth: 260 }}
-                    >
-                      {door.teaser}
-                    </motion.p>
-                  </div>
-
-                  {/* Bottom arrow */}
-                  <motion.div
-                    animate={{ x: isHovered ? 10 : 0, opacity: isHovered ? 1 : 0.2 }}
-                    className="text-right text-xl font-medium"
-                    style={{ color: "#E8630A" }}
-                  >
-                    Enter →
-                  </motion.div>
+                <div
+                  className="text-xs font-mono-label uppercase mb-4"
+                  style={{ color: path.accent }}
+                >
+                  {path.kicker}
                 </div>
-              </motion.button>
+                <h2
+                  className="text-2xl font-bold mb-3"
+                  style={{ fontFamily: "Georgia, serif" }}
+                >
+                  {path.title}
+                </h2>
+                <p
+                  className="text-base mb-8"
+                  style={{
+                    color: path.fg === "#FFFFFF" ? "rgba(255,255,255,0.68)" : "#6B6A72",
+                    lineHeight: 1.7,
+                  }}
+                >
+                  {path.body}
+                </p>
+                <div
+                  className="text-sm font-semibold inline-flex items-center gap-2 transition-transform group-hover:gap-3"
+                  style={{ color: path.accent }}
+                >
+                  {path.cta} <span>→</span>
+                </div>
+              </Link>
             </motion.div>
-          );
-        })}
-      </div>
+          ))}
+        </div>
+      </section>
 
-      {/* Resume link — subtle but findable */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.2, duration: 0.6 }}
-        className="mt-8 z-10"
-      >
-        <a
-          href="/resume"
-          className="text-sm transition-all hover:opacity-80"
-          style={{ color: "#BBBBBB", textDecoration: "none" }}
-          onClick={() => track("resume_link_clicked", { source: "landing" })}
-        >
-          Just want the resume? →
-        </a>
-      </motion.div>
-
-      {/* Easter egg — near invisible */}
-      <a
-        href="/base"
-        className="absolute bottom-2 left-2 text-xs select-none z-10"
-        style={{ color: "rgba(0,0,0,0.04)", textDecoration: "none" }}
-        onClick={() => track("easter_egg_found", { source: "landing" })}
-      >
-        or skip all of this
-      </a>
+      <div className="pb-contact" />
+      <ContactBar />
     </div>
   );
 }

@@ -1,18 +1,11 @@
 import type { Metadata } from "next";
-import { Caveat } from "next/font/google";
 import "./globals.css";
-import { SoundProvider } from "@/components/SoundManager";
 import PosthogProvider from "./PosthogProvider";
 
-const caveat = Caveat({
-  subsets: ["latin"],
-  variable: "--font-caveat",
-  display: "swap",
-});
-
 export const metadata: Metadata = {
-  title: "Harshad's World",
-  description: "One question. Four doors. One person behind all of them.",
+  title: "Harshad Shinde — Senior Product Manager",
+  description:
+    "Senior Product Manager building payments, billing, and compliance infrastructure. Also mentoring the next generation of PMs.",
 };
 
 export default function RootLayout({
@@ -21,13 +14,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={caveat.variable}>
-      <body style={{ fontFamily: "Calibri, system-ui, sans-serif" }}>
-        <PosthogProvider>
-          <SoundProvider>
-            {children}
-          </SoundProvider>
-        </PosthogProvider>
+    <html lang="en">
+      <body>
+        <PosthogProvider>{children}</PosthogProvider>
       </body>
     </html>
   );

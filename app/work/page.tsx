@@ -10,7 +10,7 @@ import { track } from "@/lib/posthog";
 const experience = [
   {
     company: "Versapay",
-    role: "Senior Product Manager, AR Automation",
+    role: "Senior Product Manager, Payments Infrastructure",
     period: "2026 – Present",
     type: "Full-time",
     location: "Vancouver, BC",

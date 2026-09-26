@@ -10,7 +10,7 @@ const FACTS = [
   { label: "Experience", value: "8+ years" },
   { label: "Domain", value: "Payments · Tax · Compliance · ERP" },
   { label: "Based in", value: "Vancouver, BC" },
-  { label: "Currently", value: "Senior PM, AR Automation @ Versapay" },
+  { label: "Currently", value: "Senior PM, Payments Infrastructure @ Versapay" },
 ];
 
 const PATHS = [

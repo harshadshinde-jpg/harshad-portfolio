@@ -9,7 +9,7 @@ import { track } from "@/lib/posthog";
 const experience = [
   {
     company: "Versapay",
-    role: "Senior Product Manager, AR Automation",
+    role: "Senior Product Manager, Payments Infrastructure",
     type: "Full-time",
     period: "2026 – Present",
     location: "Vancouver, BC",
@@ -205,7 +205,7 @@ export default function ResumePage() {
           <p className="text-sm leading-relaxed" style={{ color: "#333", lineHeight: 1.8 }}>
             Senior Product Manager with 8+ years of experience building and shipping B2B SaaS products
             across payments infrastructure, billing systems, compliance automation, and integration-heavy
-            platforms. Currently leading AR Automation product strategy at Versapay. I enjoy the parts of
+            platforms. Currently leading payments infrastructure product strategy at Versapay. I enjoy the parts of
             product that most people avoid: mapping messy end-to-end flows, translating complex regulatory
             and business requirements into clear product specs, and guiding teams toward the real problem
             rather than the loudest one. Comfortable in both structured enterprise environments and scrappy
